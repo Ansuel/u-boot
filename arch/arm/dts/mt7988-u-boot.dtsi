@@ -3,12 +3,42 @@
  * Copyright (c) 2022 MediaTek Inc.
  * Author: Sam Shih <sam.shih@mediatek.com>
  */
+/ {
+	cpus {
+		cpu@0 {
+			mediatek,hwver = <&hwver>;
+		};
 
-&system_clk {
+		cpu@1 {
+			mediatek,hwver = <&hwver>;
+		};
+
+		cpu@2 {
+			mediatek,hwver = <&hwver>;
+		};
+
+		cpu@3 {
+			mediatek,hwver = <&hwver>;
+		};
+	};
+
+	soc {
+		hwver: hwver {
+			compatible = "mediatek,hwver", "syscon";
+			reg = <0 0x8000000 0 0x1000>;
+		};
+	};
+};
+
+&apmixedsys {
 	bootph-all;
 };
 
-&spi_clk {
+&topckgen {
+	bootph-all;
+};
+
+&infracfg {
 	bootph-all;
 };
 
@@ -22,4 +52,9 @@
 
 &uart2 {
 	bootph-all;
+};
+
+&eth {
+	resets = <&ethdma ETHDMA_FE_RST>, <&ethwarp ETHWARP_GSW_RST>;
+	reset-names = "fe", "mcm";
 };
