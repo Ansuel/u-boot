@@ -4,6 +4,8 @@
 #include <dt-bindings/interrupt-controller/arm-gic.h>
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/input/input.h>
+#include <dt-bindings/reset/airoha,en7581-reset.h>
+#include <dt-bindings/clock/en7523-clk.h>
 /dts-v1/;
 
 / {
@@ -141,5 +143,21 @@
 		interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
 		clock-frequency = <1843200>;
 		bootph-all;
+	};
+
+	chip_scu: syscon@1fa20000 {
+		compatible = "airoha,en7581-chip-scu", "syscon";
+		reg = <0x0 0x1fa20000 0x0 0x388>;
+	};
+
+	scuclk: reset-controller@1fa20000 {
+		compatible = "airoha,en7581-scu", "syscon";
+		reg = <0x0 0x1fb00000 0x0 0x970>;
+		#clock-cells = <1>;
+		#reset-cells = <1>;
+
+		scu_ssr: system-controller {
+			compatible = "airoha,an7581-scu-ssr";
+		};
 	};
 };
